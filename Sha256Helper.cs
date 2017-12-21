@@ -17,7 +17,7 @@ namespace Tuhu.Service.ThirdParty.Server.Util
         /// <returns></returns>
         public static string SignBySecureKey(Dictionary<string, string> data, String secureKey)
         {
-            data = DicHelper.filterBlank(data);
+            data = DicHelper.FilterBlank(data);
             data = data.OrderBy(s => s.Key).ToDictionary(d => d.Key, d => d.Value);  //按照key排序         
             var stringData = DicHelper.ConverDicToStr(data, '=', '&');
             String strBeforeSha256 = $"{stringData}&{Sha256(secureKey)}";
@@ -31,7 +31,7 @@ namespace Tuhu.Service.ThirdParty.Server.Util
         public static string Sha256(string data)
         {
             SHA256 mySHA256 = SHA256.Create();
-            byte[] source = Encoding.Default.GetBytes(data);
+            byte[] source = Encoding.UTF8.GetBytes(data);
             byte[] crypto = mySHA256.ComputeHash(source);
             return ByteToHexStr(crypto).ToLower();
         }
